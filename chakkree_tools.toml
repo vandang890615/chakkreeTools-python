@@ -18,13 +18,19 @@ tags = ["structures", "bim", "architecture", "productivity"]
 es = "Chakkree Tools (Hormigón Armado y Armaduras)"
 en = "Chakkree Tools (RC & Rebar Generator)"
 pt = "Chakkree Tools (Concreto Armado e Armaduras)"
+vi = "Chakkree Tools (Tạo Kết cấu Bê tông Cốt thép & Cốt thép 3D)"
+th = "Chakkree Tools (เครื่องมือวิศวกรรมโครงสร้าง ค.ส.ล. และเหล็กเสริม)"
 
 [summary]
 es = "Herramientas paramétricas de hormigón armado para zapatas, columnas, vigas, losas y mallas de armadura 3D con integración .debim."
 en = "Parametric reinforced concrete tools for footings, columns, beams, slabs and 3D rebar cages with .debim OpenBIM integration."
 pt = "Ferramentas paramétricas de concreto armado para sapatas, pilares, vigas, lajes e armaduras 3D com integração .debim."
+vi = "Công cụ tham số kết cấu bê tông cốt thép cho móng cọc, cột, dầm, sàn và lồng thép 3D tích hợp OpenBIM .debim."
+th = "เครื่องมือพารามิทริกโครงสร้าง ค.ส.ล. สำหรับฐานราก เสา คาน พื้น และโครงเหล็กเสริม 3D พร้อมเชื่อมต่อ .debim OpenBIM"
 
 [description]
 es = "Herramientas paramétricas de hormigón armado en IngeTrazo: zapatas con pilotes (1-9 pilotes), columnas (4-16 barras), vigas, losas (vigueta/placa pretensada y losa maciza), mallas de armadura 3D, medición de cantidades (QTO) y exportación a .debim."
 en = "Parametric reinforced concrete tools in IngeTrazo: pile caps (1-9 piles), columns (4-16 bars), beams, slabs (precast plank and cast-in-place RC), 3D rebar cages, QTO take-off and export to .debim Building-as-Code."
 pt = "Ferramentas paramétricas de concreto armado no IngeTrazo: blocos de coroamento (1-9 estacas), pilares (4-16 barras), vigas, lajes (pré-moldada e maciça), armaduras 3D, quantitativos (QTO) e exportação para .debim."
+vi = "Bộ công cụ tham số kết cấu bê tông cốt thép trong IngeTrazo: móng đài cọc (1-9 cọc), cột (4-16 thanh chủ), dầm, sàn (sàn panel lắp ghép PS và sàn toàn khối RC), mô hình lồng cốt thép 3D, bóc tách khối lượng dự toán (QTO / BBS) và xuất khẩu mô hình .debim Building-as-Code."
+th = "ชุดเครื่องมือพารามิทริกโครงสร้างคอนกรีตเสริมเหล็กใน IngeTrazo: ฐานรากเสาเข็ม (1-9 ต้น), เสา ค.ส.ล. (เหล็กยืน 4-16 เส้น), คาน, พื้น (แผ่นพื้นสำเร็จรูป PS และพื้นหล่อในที่ RC), โครงเหล็กเสริม 3D, ถอดปริมาณและตารางดัดเหล็ก (QTO/BBS) และส่งออก .debim Building-as-Code"

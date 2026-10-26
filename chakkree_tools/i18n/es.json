@@ -1,0 +1,19 @@
+{
+  "Chakkree Tools": "Chakkree Tools",
+  "Create Pile Cap (1-9 Piles)...": "Crear zapata con pilotes (1-9 pilotes)...",
+  "Create RC Column (4-16 Bars)...": "Crear columna de hormigón armado (4-16 barras)...",
+  "Create RC Beam...": "Crear viga de hormigón armado...",
+  "Create Slab (PS Plank / RC)...": "Crear losa (vigueta pretensada / maciza)...",
+  "Toggle Show/Hide 3D Rebar Meshes": "Mostrar/Ocultar mallas de armadura 3D",
+  "Show/Hide Rebars": "Mostrar/Ocultar armaduras",
+  "Rebar Tools": "Herramientas de armadura",
+  "Grid Lines": "Líneas de rejilla",
+  "Config Colors": "Configurar colores",
+  "QTO Take-off": "Medición QTO",
+  "Export .debim": "Exportar .debim",
+  "About": "Acerca de",
+  "Footings": "Zapatas",
+  "Columns": "Columnas",
+  "Beams": "Vigas",
+  "Slabs": "Losas"
+}

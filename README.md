@@ -61,6 +61,11 @@
    - ส่งออกโมเดลโครงสร้างเป็นไฟล์ `.debim.yaml` (สเปก `schema: IFC4-Minimal`)
    - เชื่อมต่อกับโปรเจกต์ `debim CLI` เพื่อทำ **QTO (ถอดปริมาณ)**, **BOQ (ประเมินราคา)**, **2D Blueprint Drafting** และ **IFC4 Export** ได้ทันที
 
+
+5. **Multi-language UI & Internationalization (i18n):**
+   - รองรับหลายภาษา: **English**, **Tiếng Việt (Vietnamese)**, **ภาษาไทย (Thai)**, และ **Español (Spanish)**
+   - ตรวจจับภาษาอัตโนมัติจากโฮสต์ IngeTrazo หรือเปลี่ยนภาษาได้ทันทีผ่านเมนู Extensions > Chakkree Tools > Language...
+
 ---
 
 ## 🚀 เริ่มต้นใช้งาน (Quick Start)

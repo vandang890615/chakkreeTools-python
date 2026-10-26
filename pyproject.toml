@@ -32,6 +32,15 @@ gui = [
 where = ["."]
 include = ["chakkree_tools*"]
 
+[tool.setuptools.package-data]
+chakkree_tools = [
+    "*.json",
+    "i18n/*.json",
+    "resources/icons/*.svg",
+    "ingetrazo_plugin/resources/icons/*.svg",
+    "ingetrazo_plugin/metadata.json",
+]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]

@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 )
 
 from chakkree_tools.rc.slab import Slab
+from chakkree_tools.i18n import tr
 
 
 class SlabDialog(QDialog):
@@ -29,7 +30,7 @@ class SlabDialog(QDialog):
 
     def __init__(self, parent: Optional[Any] = None) -> None:
         super().__init__(parent)
-        self.setWindowTitle("Parametric RC / PS Slab")
+        self.setWindowTitle(tr("Parametric RC / PS Slab"))
         self.setMinimumWidth(380)
         self._setup_ui()
         self._update_live_calc()
@@ -38,19 +39,19 @@ class SlabDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.setSizeConstraint(QLayout.SetMinimumSize)
 
-        group_box = QGroupBox("Slab Parameters", self)
+        group_box = QGroupBox(tr("Slab Parameters"), self)
         form_layout = QFormLayout(group_box)
 
         # Slab ID
         self.id_input = QLineEdit("S1", self)
-        form_layout.addRow("Slab ID:", self.id_input)
+        form_layout.addRow(tr("Slab ID:"), self.id_input)
 
         # Slab Type (PS Plank / RC Cast-in-place)
         self.type_combo = QComboBox(self)
-        self.type_combo.addItem("Precast Plank Slab (PS)", "PS")
-        self.type_combo.addItem("Cast-in-place RC Slab (RC)", "RC")
+        self.type_combo.addItem(tr("Precast Plank Slab (PS)"), "PS")
+        self.type_combo.addItem(tr("Cast-in-place RC Slab (RC)"), "RC")
         self.type_combo.currentIndexChanged.connect(self._on_type_changed)
-        form_layout.addRow("Slab Type:", self.type_combo)
+        form_layout.addRow(tr("Slab Type:"), self.type_combo)
 
         # Span X (Width in meters)
         self.span_x_spin = QDoubleSpinBox(self)
@@ -59,7 +60,7 @@ class SlabDialog(QDialog):
         self.span_x_spin.setValue(4.0)
         self.span_x_spin.setSuffix(" m")
         self.span_x_spin.valueChanged.connect(self._update_live_calc)
-        form_layout.addRow("Span X (Width):", self.span_x_spin)
+        form_layout.addRow(tr("Span X (Width):"), self.span_x_spin)
 
         # Span Y (Length in meters)
         self.span_y_spin = QDoubleSpinBox(self)
@@ -68,7 +69,7 @@ class SlabDialog(QDialog):
         self.span_y_spin.setValue(4.0)
         self.span_y_spin.setSuffix(" m")
         self.span_y_spin.valueChanged.connect(self._update_live_calc)
-        form_layout.addRow("Span Y (Length):", self.span_y_spin)
+        form_layout.addRow(tr("Span Y (Length):"), self.span_y_spin)
 
         # Slab Thickness
         self.thickness_spin = QDoubleSpinBox(self)
@@ -77,7 +78,7 @@ class SlabDialog(QDialog):
         self.thickness_spin.setValue(0.10)
         self.thickness_spin.setSuffix(" m")
         self.thickness_spin.valueChanged.connect(self._update_live_calc)
-        form_layout.addRow("Total Thickness:", self.thickness_spin)
+        form_layout.addRow(tr("Total Thickness:"), self.thickness_spin)
 
         # Topping Thickness (for PS)
         self.topping_spin = QDoubleSpinBox(self)
@@ -86,7 +87,7 @@ class SlabDialog(QDialog):
         self.topping_spin.setValue(0.05)
         self.topping_spin.setSuffix(" m")
         self.topping_spin.valueChanged.connect(self._update_live_calc)
-        form_layout.addRow("Topping Thickness:", self.topping_spin)
+        form_layout.addRow(tr("Topping Thickness:"), self.topping_spin)
 
         # Elevation (Z level)
         self.elevation_spin = QDoubleSpinBox(self)
@@ -94,16 +95,16 @@ class SlabDialog(QDialog):
         self.elevation_spin.setSingleStep(0.50)
         self.elevation_spin.setValue(0.0)
         self.elevation_spin.setSuffix(" m")
-        form_layout.addRow("Top Elevation Z:", self.elevation_spin)
+        form_layout.addRow(tr("Top Elevation Z:"), self.elevation_spin)
 
         # Reinforcement Spec
         self.rebar_input = QLineEdit("WM4@0.20", self)
-        form_layout.addRow("Reinforcement:", self.rebar_input)
+        form_layout.addRow(tr("Reinforcement:"), self.rebar_input)
 
         layout.addWidget(group_box)
 
         # Live Calculation Summary Group
-        calc_box = QGroupBox("Live Calculation Summary", self)
+        calc_box = QGroupBox(tr("Live Calculation Summary"), self)
         calc_layout = QVBoxLayout(calc_box)
         self.calc_info_label = QLabel(self)
         self.calc_info_label.setWordWrap(True)
@@ -136,12 +137,16 @@ class SlabDialog(QDialog):
         """Recalculate slab properties and update summary label in real-time."""
         try:
             slab = self.get_slab()
+            area_lbl = tr("Area:")
+            type_lbl = tr("Type:")
+            conc_lbl = tr("Concrete:")
+            form_lbl = tr("Formwork:")
             self.calc_info_label.setText(
-                f"Area: {slab.area:.2f} m² | Type: {slab.slab_type.upper()}\n"
-                f"Concrete: {slab.concrete_volume:.3f} m³ | Formwork: {slab.formwork_area:.2f} m²"
+                f"{area_lbl} {slab.area:.2f} m² | {type_lbl} {slab.slab_type.upper()}\n"
+                f"{conc_lbl} {slab.concrete_volume:.3f} m³ | {form_lbl} {slab.formwork_area:.2f} m²"
             )
         except ValueError as exc:
-            self.calc_info_label.setText(f"Invalid input: {exc}")
+            self.calc_info_label.setText(tr("Invalid input: {exc}", exc=exc))
 
     def get_slab(self) -> Slab:
         sx = self.span_x_spin.value()
@@ -151,11 +156,11 @@ class SlabDialog(QDialog):
         slab_type = self.type_combo.currentData()
 
         if sx <= 0 or sy <= 0:
-            raise ValueError("Slab spans must be greater than zero.")
+            raise ValueError(tr("Slab spans must be greater than zero."))
         if thickness <= 0:
-            raise ValueError("Slab thickness must be greater than zero.")
+            raise ValueError(tr("Slab thickness must be greater than zero."))
         if slab_type == "PS" and topping <= 0:
-            raise ValueError("Topping thickness must be greater than zero.")
+            raise ValueError(tr("Topping thickness must be greater than zero."))
 
         boundary = [(0.0, 0.0), (sx, 0.0), (sx, sy), (0.0, sy)]
         return Slab(

@@ -19,6 +19,8 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from chakkree_tools.i18n import tr
+
 DEFAULT_REBAR_COLORS: Dict[str, str] = {
     "RB6": "#B0C4DE",
     "RB9": "#4682B4",
@@ -38,7 +40,7 @@ class ColorConfigDialog(QDialog):
 
     def __init__(self, parent: Optional[Any] = None) -> None:
         super().__init__(parent)
-        self.setWindowTitle("Rebar Color Configuration")
+        self.setWindowTitle(tr("Rebar Color Configuration"))
         self.resize(460, 400)
         self.current_colors = dict(DEFAULT_REBAR_COLORS)
         self._setup_ui()
@@ -46,11 +48,12 @@ class ColorConfigDialog(QDialog):
     def _setup_ui(self) -> None:
         layout = QVBoxLayout(self)
 
-        info_label = QLabel("Click on the color preview button to change color mapping for each rebar size:")
+        info_label = QLabel(tr("Click on the color preview button to change color mapping for each rebar size:"))
+        info_label.setWordWrap(True)
         layout.addWidget(info_label)
 
         self.table = QTableWidget(len(self.current_colors), 4, self)
-        self.table.setHorizontalHeaderLabels(["Size", "Diameter", "Hex Code", "Color Pick"])
+        self.table.setHorizontalHeaderLabels([tr("Size"), tr("Diameter"), tr("Hex Code"), tr("Color Pick")])
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         dias = {
@@ -88,7 +91,7 @@ class ColorConfigDialog(QDialog):
 
     def _pick_color(self, size: str, row: int, btn: QPushButton) -> None:
         curr = QColor(self.current_colors[size])
-        col = QColorDialog.getColor(curr, self, f"Select Color for {size}")
+        col = QColorDialog.getColor(curr, self, tr("Select Color for {size}", size=size))
         if col.isValid():
             hex_code = col.name().upper()
             self.current_colors[size] = hex_code

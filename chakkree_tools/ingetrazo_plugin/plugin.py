@@ -5,6 +5,7 @@ Registers toolbars, menus, and 3D modeling actions within IngeTrazo CAD.
 
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
+from chakkree_tools.i18n import tr
 
 try:
     from tools.base import Tool  # type: ignore
@@ -56,7 +57,7 @@ class ChakkreeToolsPlugin(Tool):
     def cmd_toggle_rebars(self, parent: Optional[Any] = None) -> bool:
         """Toggles visibility of 3D rebar cages inside the IngeTrazo viewport."""
         self.show_rebars = not self.show_rebars
-        msg = f"Chakkree Tools: Rebar Meshes {'Shown' if self.show_rebars else 'Hidden'}"
+        msg = tr("Chakkree Tools: Rebar Meshes Shown") if self.show_rebars else tr("Chakkree Tools: Rebar Meshes Hidden")
         if hasattr(self.app, "flash_status"):
             self.app.flash_status(msg)
 
@@ -65,7 +66,7 @@ class ChakkreeToolsPlugin(Tool):
         if scene is not None and hasattr(scene, "mesh"):
             if not self.active_elements:
                 if hasattr(self.app, "flash_status"):
-                    self.app.flash_status("Chakkree Tools: No active elements. Create a Footing, Column, Beam, or Slab first.")
+                    self.app.flash_status(tr("Chakkree Tools: No active elements. Create a Footing, Column, Beam, or Slab first."))
                 return self.show_rebars
 
             if self.show_rebars:
@@ -83,27 +84,27 @@ class ChakkreeToolsPlugin(Tool):
             "menu_path": "Extensions > Chakkree Tools",
             "items": [
                 {
-                    "label": "Create Pile Cap (1-9 Piles)...",
+                    "label": tr("Create Pile Cap (1-9 Piles)..."),
                     "action": self.cmd_create_pile_cap,
                 },
                 {
-                    "label": "Create RC Column (4-16 Bars)...",
+                    "label": tr("Create RC Column (4-16 Bars)..."),
                     "action": self.cmd_create_column,
                 },
                 {
-                    "label": "Create RC Beam...",
+                    "label": tr("Create RC Beam..."),
                     "action": self.cmd_create_beam,
                 },
                 {
-                    "label": "Create Slab (PS Plank / RC)...",
+                    "label": tr("Create Slab (PS Plank / RC)..."),
                     "action": self.cmd_create_slab,
                 },
                 {
-                    "label": "Toggle Show/Hide 3D Rebar Meshes",
+                    "label": tr("Toggle Show/Hide 3D Rebar Meshes"),
                     "action": self.cmd_toggle_rebars,
                 },
                 {
-                    "label": "Export Model to .debim...",
+                    "label": tr("Export Model to .debim..."),
                     "action": self.cmd_export_debim,
                     "shortcut": "Ctrl+Shift+E",
                 },
@@ -120,82 +121,82 @@ class ChakkreeToolsPlugin(Tool):
             "actions": [
                 {
                     "name": "RebarTools",
-                    "label": "Rebar Tools",
-                    "tooltip": "เครื่องมือเหล็กเสริม (Rebar Tools) - ดัดขอและสร้างเหล็กเสริม 3D",
+                    "label": tr("Rebar Tools"),
+                    "tooltip": tr("Rebar Tools - Bend hooks and generate 3D reinforcement cages"),
                     "icon": str(icons_dir / "RebarTools.svg"),
                     "action": self.cmd_rebar_tools,
                 },
                 {
                     "name": "ToggleRebars",
-                    "label": "Show/Hide Rebars",
-                    "tooltip": "แสดง/ซ่อนโครงเหล็กเสริม 3D (Toggle Show/Hide Rebar Meshes)",
+                    "label": tr("Show/Hide Rebars"),
+                    "tooltip": tr("Toggle Show/Hide 3D Rebar Meshes"),
                     "icon": str(icons_dir / "ToggleRebars.svg"),
                     "action": self.cmd_toggle_rebars,
                 },
                 {
                     "name": "FootingTools",
-                    "label": "Footings",
-                    "tooltip": "เครื่องมือฐานราก (Footing Tools) - ฐานรากเสาเข็ม 1-9 ต้น และฐานแผ่",
+                    "label": tr("Footings"),
+                    "tooltip": tr("Footing Tools - Parametric 1-9 pile caps and isolated footings"),
                     "icon": str(icons_dir / "FootingTools.svg"),
                     "action": self.cmd_create_pile_cap,
                 },
                 {
                     "name": "BeamTools",
-                    "label": "Beams",
-                    "tooltip": "เครื่องมือคาน ค.ส.ล. (Beam Tools) - คานและเหล็กปลอกหลายระยะ",
+                    "label": tr("Beams"),
+                    "tooltip": tr("Beam Tools - Parametric RC beams with multi-zone stirrup spacing"),
                     "icon": str(icons_dir / "BeamTools.svg"),
                     "action": self.cmd_create_beam,
                 },
                 {
                     "name": "ColumnTools",
-                    "label": "Columns",
-                    "tooltip": "เครื่องมือเสา ค.ส.ล. (Column Tools) - เสาสี่เหลี่ยม/กลม เหล็กยืน 4-16 เส้น",
+                    "label": tr("Columns"),
+                    "tooltip": tr("Column Tools - Rectangular/Circular columns with 4-16 longitudinal bars"),
                     "icon": str(icons_dir / "ColumnTools.svg"),
                     "action": self.cmd_create_column,
                 },
                 {
                     "name": "SlabTools",
-                    "label": "Slabs",
-                    "tooltip": "เครื่องมือพื้น ค.ส.ล. / พื้นสำเร็จรูป (Slab Tools)",
+                    "label": tr("Slabs"),
+                    "tooltip": tr("Slab Tools - Precast plank and cast-in-place RC slabs"),
                     "icon": str(icons_dir / "SlabTools.svg"),
                     "action": self.cmd_create_slab,
                 },
                 {"name": "separator_1", "type": "separator"},
                 {
                     "name": "GridLine",
-                    "label": "Grid Lines",
-                    "tooltip": "เครื่องมือกริตไลน์ (GridLine v2026) - ระบบแกน X/Y และระดับชั้น",
+                    "label": tr("Grid Lines"),
+                    "tooltip": tr("GridLine v2026 - Parametric X/Y grid axes and elevation levels"),
                     "icon": str(icons_dir / "GridLine.svg"),
                     "action": self.cmd_create_grids,
                 },
                 {"name": "separator_2", "type": "separator"},
                 {
                     "name": "TakeOff",
-                    "label": "QTO Take-off",
-                    "tooltip": "ถอดปริมาณ คอนกรีต ไม้แบบ เหล็กเสริม และ Bar Bending Schedule",
+                    "label": tr("QTO Take-off"),
+                    "tooltip": tr("Quantity Take-off - Concrete volume, formwork, and Bar Bending Schedule"),
                     "icon": str(icons_dir / "TakeOff.svg"),
                     "action": self.cmd_qto_takeoff,
                 },
                 {
                     "name": "AnalysisRC",
-                    "label": "RC Analysis",
-                    "tooltip": "วิเคราะห์กำลังรับแรงหน้าตัด ค.ส.ล. และส่งออก .debim",
+                    "label": tr("RC Analysis"),
+                    "tooltip": tr("RC Analysis - Export model to .debim for OpenBIM / debim CLI"),
                     "icon": str(icons_dir / "AnalysisTool.svg"),
                     "action": self.cmd_export_debim,
                 },
                 {"name": "separator_3", "type": "separator"},
                 {
                     "name": "ConfigColorRebar",
-                    "label": "Config Colors",
-                    "tooltip": "ตั้งค่าสีเหล็กเสริมแยกตามขนาดเส้นผ่านศูนย์กลาง (RB6, RB9, DB12-DB32)",
+                    "label": tr("Config Colors"),
+                    "tooltip": tr("Config Colors - Rebar color customization by diameter (RB6-DB32)"),
                     "icon": str(icons_dir / "ConfigColorRebar.svg"),
                     "action": self.cmd_config_colors,
                 },
                 {"name": "separator_4", "type": "separator"},
                 {
                     "name": "About",
-                    "label": "About",
-                    "tooltip": "เกี่ยวกับ Chakkree Tools (Python Edition) © อ.จักรี ติยะวงศ์สุวรรณ",
+                    "label": tr("About"),
+                    "tooltip": tr("About Chakkree Tools (Python Edition) © Chakkree Tiyawongsuwan"),
                     "icon": str(icons_dir / "About.svg"),
                     "action": self.cmd_about,
                 },
@@ -265,19 +266,19 @@ class ChakkreeToolsPlugin(Tool):
                 if callable(win):
                     win = win()
                 lines = [
-                    "=== Chakkree Tools QTO Summary ===",
-                    f"Total Elements: {summary.total_elements}",
-                    f"Concrete Volume: {summary.total_concrete_volume_m3:.3f} m³",
-                    f"Formwork Area: {summary.total_formwork_area_m2:.2f} m²",
-                    f"Total Rebar Weight: {summary.total_rebar_weight_kg:.2f} kg",
+                    tr("=== Chakkree Tools QTO Summary ==="),
+                    tr("Total Elements: {count}", count=summary.total_elements),
+                    tr("Concrete Volume: {vol:.3f} m³", vol=summary.total_concrete_volume_m3),
+                    tr("Formwork Area: {area:.2f} m²", area=summary.total_formwork_area_m2),
+                    tr("Total Rebar Weight: {weight:.2f} kg", weight=summary.total_rebar_weight_kg),
                     "",
-                    "Rebar Breakdown (BBS):",
+                    tr("Rebar Breakdown (BBS):"),
                 ]
                 for bar_type, wt in summary.rebar_weight_by_size.items():
                     lines.append(f"  • {bar_type}: {wt:.2f} kg")
                 QMessageBox.information(
                     win,
-                    "QTO & Bar Bending Schedule",
+                    tr("QTO & Bar Bending Schedule"),
                     "\n".join(lines),
                 )
         except ImportError:
@@ -296,7 +297,7 @@ class ChakkreeToolsPlugin(Tool):
                 dlg = ColorConfigDialog(parent=win)
                 if dlg.exec() == QDialog.Accepted:
                     if hasattr(self.app, "flash_status"):
-                        self.app.flash_status("Updated rebar color configuration")
+                        self.app.flash_status(tr("Updated rebar color configuration"))
         except ImportError:
             pass
 
@@ -304,22 +305,72 @@ class ChakkreeToolsPlugin(Tool):
         """Handler for About info."""
         try:
             from PySide6.QtWidgets import QApplication, QMessageBox
+            from chakkree_tools.i18n import get_current_language
             if QApplication.instance() is not None:
                 win = parent or getattr(self.app, "window", getattr(self.app, "_window", None))
                 if callable(win):
                     win = win()
-                title = "About Chakkree Tools (Python Edition)"
-                message = (
-                    "Chakkree Tools (Python Edition for IngeTrazo) v0.1.0\n\n"
-                    "Reverse-engineered and ported to IngeTrazo CAD with OpenBIM .debim integration.\n"
-                    "Original SketchUp extension created by อ.จักรี ติยะวงศ์สุวรรณ.\n\n"
-                    "หากคุณชอบและได้รับประโยชน์จากส่วนขยายนี้ สามารถสนับสนุนนักพัฒนาต้นฉบับได้ที่:\n"
-                    "https://sites.google.com/view/learn-sketchup/myextension/chakkree_tools-v0-4?authuser=0\n\n"
-                    "GitHub: https://github.com/PRIDA-TAKON/chakkreeTools-python"
-                )
+                title = tr("About Chakkree Tools (Python Edition)")
+                lang = get_current_language()
+                if lang == "vi":
+                    message = (
+                        "Chakkree Tools (Phiên bản Python cho IngeTrazo) v0.1.0\n\n"
+                        "Phát triển và dịch ngược từ tiện ích mở rộng SketchUp sang IngeTrazo CAD kết hợp chuẩn OpenBIM .debim.\n"
+                        "Tác giả ý tưởng và mô hình gốc: Thầy Chakkree Tiyawongsuwan (อ.จักรี ติยะวงศ์สุวรรณ).\n\n"
+                        "Nếu bạn yêu thích và nhận được giá trị từ công cụ này, hãy ủng hộ tác giả gốc tại:\n"
+                        "https://sites.google.com/view/learn-sketchup/myextension/chakkree_tools-v0-4?authuser=0\n\n"
+                        "GitHub: https://github.com/PRIDA-TAKON/chakkreeTools-python"
+                    )
+                else:
+                    message = (
+                        "Chakkree Tools (Python Edition for IngeTrazo) v0.1.0\n\n"
+                        "Reverse-engineered and ported to IngeTrazo CAD with OpenBIM .debim integration.\n"
+                        "Original SketchUp extension created by อ.จักรี ติยะวงศ์สุวรรณ.\n\n"
+                        "หากคุณชอบและได้รับประโยชน์จากส่วนขยายนี้ สามารถสนับสนุนนักพัฒนาต้นฉบับได้ที่:\n"
+                        "https://sites.google.com/view/learn-sketchup/myextension/chakkree_tools-v0-4?authuser=0\n\n"
+                        "GitHub: https://github.com/PRIDA-TAKON/chakkreeTools-python"
+                    )
                 QMessageBox.information(win, title, message)
         except ImportError:
             pass
+
+    def cmd_select_language(self, parent: Optional[Any] = None) -> Optional[str]:
+        """Allows user to select active language (English, Tiếng Việt, ภาษาไทย, Español)."""
+        try:
+            from PySide6.QtWidgets import QApplication, QInputDialog
+            from chakkree_tools.i18n import (
+                LANGUAGE_NAMES,
+                available_languages,
+                get_current_language,
+                set_language,
+                tr,
+            )
+            if QApplication.instance() is not None:
+                win = parent or getattr(self.app, "window", getattr(self.app, "_window", None))
+                if callable(win):
+                    win = win()
+                langs = available_languages()
+                items = [f"{LANGUAGE_NAMES.get(code, code)} ({code})" for code in langs]
+                current_code = get_current_language()
+                curr_idx = langs.index(current_code) if current_code in langs else 0
+                chosen_item, ok = QInputDialog.getItem(
+                    win,
+                    tr("Select Language"),
+                    tr("Language..."),
+                    items,
+                    curr_idx,
+                    False,
+                )
+                if ok and chosen_item:
+                    selected_code = langs[items.index(chosen_item)]
+                    set_language(selected_code)
+                    msg = tr("Language set to {lang}", lang=LANGUAGE_NAMES.get(selected_code, selected_code))
+                    if hasattr(self.app, "flash_status"):
+                        self.app.flash_status(msg)
+                    return selected_code
+        except Exception as e:
+            print(f"[chakkree_tools] Notice: Could not select language: {e}")
+        return None
 
     def cmd_stream_to_bridge(self, host: str = "127.0.0.1", port: int = 8482) -> bool:
         """Handler to live-stream active elements to IngeTrazo via Agent Bridge."""
@@ -332,7 +383,7 @@ class ChakkreeToolsPlugin(Tool):
         try:
             result = stream_to_ingetrazo(manifest_yaml, host=host, port=port)
             if hasattr(self.app, "flash_status"):
-                self.app.flash_status("Chakkree Tools: Streamed to IngeTrazo successfully!")
+                self.app.flash_status(tr("Chakkree Tools: Streamed to IngeTrazo successfully!"))
             return result
         except Exception as e:
             if hasattr(self.app, "flash_status"):
@@ -835,7 +886,7 @@ class ChakkreeToolsPlugin(Tool):
                         win = win()
                     chosen_path, _ = QFileDialog.getSaveFileName(
                         win,
-                        "Export Model to .debim",
+                        tr("Export Model to .debim"),
                         "chakkree_model.debim",
                         "debim Model (*.debim);;debim Manifest (*.debim.yaml);;All Files (*.*)",
                     )
@@ -859,7 +910,7 @@ class ChakkreeToolsPlugin(Tool):
             include_rebar_mesh=self.show_rebars,
         )
         if hasattr(self.app, "flash_status"):
-            self.app.flash_status(f"Exported .debim to {Path(output_path).name}")
+            self.app.flash_status(tr("Exported .debim to {name}", name=Path(output_path).name))
         return res
 
 
@@ -890,33 +941,34 @@ def setup(app: Any) -> ChakkreeToolsPlugin:
         menu = app.add_menu("Chakkree Tools")
 
     if menu is not None:
-        menu.addAction("Create Pile Cap (1-9 Piles)...", lambda: plugin.cmd_create_pile_cap())
-        menu.addAction("Create RC Column (4-16 Bars)...", lambda: plugin.cmd_create_column())
-        menu.addAction("Create RC Beam...", lambda: plugin.cmd_create_beam())
-        menu.addAction("Create Slab (PS Plank / RC)...", lambda: plugin.cmd_create_slab())
+        menu.addAction(tr("Create Pile Cap (1-9 Piles)..."), lambda: plugin.cmd_create_pile_cap())
+        menu.addAction(tr("Create RC Column (4-16 Bars)..."), lambda: plugin.cmd_create_column())
+        menu.addAction(tr("Create RC Beam..."), lambda: plugin.cmd_create_beam())
+        menu.addAction(tr("Create Slab (PS Plank / RC)..."), lambda: plugin.cmd_create_slab())
         menu.addSeparator()
-        menu.addAction("Show/Hide 3D Rebar Meshes", lambda: plugin.cmd_toggle_rebars())
-        menu.addAction("Rebar Tools & Details...", lambda: plugin.cmd_rebar_tools())
-        menu.addAction("Grid Lines...", lambda: plugin.cmd_create_grids())
-        menu.addAction("Rebar Color Config...", lambda: plugin.cmd_config_colors())
+        menu.addAction(tr("Show/Hide 3D Rebar Meshes"), lambda: plugin.cmd_toggle_rebars())
+        menu.addAction(tr("Rebar Tools & Details..."), lambda: plugin.cmd_rebar_tools())
+        menu.addAction(tr("Grid Lines..."), lambda: plugin.cmd_create_grids())
+        menu.addAction(tr("Rebar Color Config..."), lambda: plugin.cmd_config_colors())
         menu.addSeparator()
-        menu.addAction("QTO Take-off Report...", lambda: plugin.cmd_qto_takeoff())
-        menu.addAction("Export Model to .debim...", lambda: plugin.cmd_export_debim())
-        menu.addAction("Live Stream to IngeTrazo (Port 8482)...", lambda: plugin.cmd_stream_to_bridge())
+        menu.addAction(tr("QTO Take-off Report..."), lambda: plugin.cmd_qto_takeoff())
+        menu.addAction(tr("Export Model to .debim..."), lambda: plugin.cmd_export_debim())
+        menu.addAction(tr("Live Stream to IngeTrazo (Port 8482)..."), lambda: plugin.cmd_stream_to_bridge())
         menu.addSeparator()
-        menu.addAction("About Chakkree Tools...", lambda: plugin.cmd_about())
+        menu.addAction(tr("Language..."), lambda: plugin.cmd_select_language())
+        menu.addAction(tr("About Chakkree Tools..."), lambda: plugin.cmd_about())
 
     # Fallback only when submenu add_menu is not available
     elif hasattr(app, "add_menu_action"):
-        app.add_menu_action("Chakkree: Footings (Pile Cap)...", lambda: plugin.cmd_create_pile_cap(), tip="Create Pile Cap / Footing")
-        app.add_menu_action("Chakkree: RC Columns...", lambda: plugin.cmd_create_column(), tip="Create RC Column")
-        app.add_menu_action("Chakkree: RC Beams...", lambda: plugin.cmd_create_beam(), tip="Create RC Beam")
-        app.add_menu_action("Chakkree: Slabs...", lambda: plugin.cmd_create_slab(), tip="Create RC Slab")
-        app.add_menu_action("Chakkree: Show/Hide Rebars", lambda: plugin.cmd_toggle_rebars(), tip="Toggle Show/Hide 3D Rebar Meshes")
-        app.add_menu_action("Chakkree: QTO Take-off...", lambda: plugin.cmd_qto_takeoff(), tip="Automated BBS & Quantity Take-off")
-        app.add_menu_action("Chakkree: Export .debim...", lambda: plugin.cmd_export_debim(), tip="Export to .debim manifest")
-        app.add_menu_action("Chakkree: Stream to Bridge (Port 8482)...", lambda: plugin.cmd_stream_to_bridge(), tip="Stream to IngeTrazo port 8482")
-        app.add_menu_action("Chakkree: About...", lambda: plugin.cmd_about(), tip="About Chakkree Tools")
+        app.add_menu_action(tr("Chakkree: Footings (Pile Cap)..."), lambda: plugin.cmd_create_pile_cap(), tip="Create Pile Cap / Footing")
+        app.add_menu_action(tr("Chakkree: RC Columns..."), lambda: plugin.cmd_create_column(), tip="Create RC Column")
+        app.add_menu_action(tr("Chakkree: RC Beams..."), lambda: plugin.cmd_create_beam(), tip="Create RC Beam")
+        app.add_menu_action(tr("Chakkree: Slabs..."), lambda: plugin.cmd_create_slab(), tip="Create RC Slab")
+        app.add_menu_action(tr("Chakkree: Show/Hide Rebars"), lambda: plugin.cmd_toggle_rebars(), tip="Toggle Show/Hide 3D Rebar Meshes")
+        app.add_menu_action(tr("Chakkree: QTO Take-off..."), lambda: plugin.cmd_qto_takeoff(), tip="Automated BBS & Quantity Take-off")
+        app.add_menu_action(tr("Chakkree: Export .debim..."), lambda: plugin.cmd_export_debim(), tip="Export to .debim manifest")
+        app.add_menu_action(tr("Chakkree: Stream to Bridge (Port 8482)..."), lambda: plugin.cmd_stream_to_bridge(), tip="Stream to IngeTrazo port 8482")
+        app.add_menu_action(tr("Chakkree: About..."), lambda: plugin.cmd_about(), tip="About Chakkree Tools")
 
     # 2. Register Toolbar on IngeTrazo main window
     win = getattr(app, "window", getattr(app, "_window", None))
@@ -948,19 +1000,19 @@ def setup(app: Any) -> ChakkreeToolsPlugin:
                     icons_dir = Path(__file__).resolve().parent.parent / "resources" / "icons"
 
                 actions_data = [
-                    ("RebarTools.svg", "Rebar Tools", "เครื่องมือเหล็กเสริม (Rebar Tools) - ดัดขอและสร้างเหล็กเสริม 3D", plugin.cmd_rebar_tools),
-                    ("ToggleRebars.svg", "Show/Hide Rebars", "แสดง/ซ่อนโครงเหล็กเสริม 3D (Toggle Show/Hide Rebar Meshes)", plugin.cmd_toggle_rebars),
-                    ("FootingTools.svg", "Footings", "เครื่องมือฐานราก (Footing Tools) - ฐานรากเสาเข็ม 1-9 ต้น", plugin.cmd_create_pile_cap),
-                    ("ColumnTools.svg", "Columns", "เครื่องมือเสา ค.ส.ล. (Column Tools)", plugin.cmd_create_column),
-                    ("BeamTools.svg", "Beams", "เครื่องมือคาน ค.ส.ล. (Beam Tools)", plugin.cmd_create_beam),
-                    ("SlabTools.svg", "Slabs", "เครื่องมือพื้น ค.ส.ล. / พื้นสำเร็จรูป (Slab Tools)", plugin.cmd_create_slab),
+                    ("RebarTools.svg", tr("Rebar Tools"), tr("Rebar Tools - Bend hooks and generate 3D reinforcement cages"), plugin.cmd_rebar_tools),
+                    ("ToggleRebars.svg", tr("Show/Hide Rebars"), tr("Toggle Show/Hide 3D Rebar Meshes"), plugin.cmd_toggle_rebars),
+                    ("FootingTools.svg", tr("Footings"), tr("Footing Tools - Parametric 1-9 pile caps and isolated footings"), plugin.cmd_create_pile_cap),
+                    ("ColumnTools.svg", tr("Columns"), tr("Column Tools - Rectangular/Circular columns with 4-16 longitudinal bars"), plugin.cmd_create_column),
+                    ("BeamTools.svg", tr("Beams"), tr("Beam Tools - Parametric RC beams with multi-zone stirrup spacing"), plugin.cmd_create_beam),
+                    ("SlabTools.svg", tr("Slabs"), tr("Slab Tools - Precast plank and cast-in-place RC slabs"), plugin.cmd_create_slab),
                     (None, None, None, None),  # Separator
-                    ("GridLine.svg", "Grid Lines", "เครื่องมือกริตไลน์ (GridLine v2026)", plugin.cmd_create_grids),
-                    ("TakeOff.svg", "QTO Take-off", "ถอดปริมาณ คอนกรีต ไม้แบบ เหล็กเสริม และ Bar Bending Schedule", plugin.cmd_qto_takeoff),
-                    ("AnalysisTool.svg", "Export .debim", "ส่งออกโมเดล .debim สำหรับ debim CLI / OpenBIM", plugin.cmd_export_debim),
+                    ("GridLine.svg", tr("Grid Lines"), tr("GridLine v2026 - Parametric X/Y grid axes and elevation levels"), plugin.cmd_create_grids),
+                    ("TakeOff.svg", tr("QTO Take-off"), tr("Quantity Take-off - Concrete volume, formwork, and Bar Bending Schedule"), plugin.cmd_qto_takeoff),
+                    ("AnalysisTool.svg", tr("Export .debim"), tr("RC Analysis - Export model to .debim for OpenBIM / debim CLI"), plugin.cmd_export_debim),
                     (None, None, None, None),  # Separator
-                    ("ConfigColorRebar.svg", "Config Colors", "ตั้งค่าสีเหล็กเสริมแยกตามขนาดเส้นผ่านศูนย์กลาง", plugin.cmd_config_colors),
-                    ("About.svg", "About", "เกี่ยวกับ Chakkree Tools (Python Edition)", plugin.cmd_about),
+                    ("ConfigColorRebar.svg", tr("Config Colors"), tr("Config Colors - Rebar color customization by diameter (RB6-DB32)"), plugin.cmd_config_colors),
+                    ("About.svg", tr("About"), tr("About Chakkree Tools (Python Edition) © Chakkree Tiyawongsuwan"), plugin.cmd_about),
                 ]
 
                 for item in actions_data:

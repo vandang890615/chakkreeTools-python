@@ -16,6 +16,8 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from chakkree_tools.i18n import tr
+
 
 class GridLineDialog(QDialog):
     """
@@ -24,45 +26,45 @@ class GridLineDialog(QDialog):
 
     def __init__(self, parent: Optional[Any] = None) -> None:
         super().__init__(parent)
-        self.setWindowTitle("Structural Grid Lines (GridLine v2026)")
+        self.setWindowTitle(tr("Structural Grid Lines (GridLine v2026)"))
         self.resize(360, 320)
         self._setup_ui()
 
     def _setup_ui(self) -> None:
         layout = QVBoxLayout(self)
 
-        group = QGroupBox("Grid System Configuration", self)
+        group = QGroupBox(tr("Grid System Configuration"), self)
         form = QFormLayout(group)
 
         # X Grids (e.g. 1, 2, 3, 4)
         self.x_count_spin = QSpinBox(self)
         self.x_count_spin.setRange(1, 50)
         self.x_count_spin.setValue(4)
-        form.addRow("X Grid Count:", self.x_count_spin)
+        form.addRow(tr("X Grid Count:"), self.x_count_spin)
 
         self.x_spacing_spin = QDoubleSpinBox(self)
         self.x_spacing_spin.setRange(1.0, 50.0)
         self.x_spacing_spin.setValue(4.0)
         self.x_spacing_spin.setSuffix(" m")
-        form.addRow("X Spacing:", self.x_spacing_spin)
+        form.addRow(tr("X Spacing:"), self.x_spacing_spin)
 
         # Y Grids (e.g. A, B, C)
         self.y_count_spin = QSpinBox(self)
         self.y_count_spin.setRange(1, 50)
         self.y_count_spin.setValue(3)
-        form.addRow("Y Grid Count:", self.y_count_spin)
+        form.addRow(tr("Y Grid Count:"), self.y_count_spin)
 
         self.y_spacing_spin = QDoubleSpinBox(self)
         self.y_spacing_spin.setRange(1.0, 50.0)
         self.y_spacing_spin.setValue(4.0)
         self.y_spacing_spin.setSuffix(" m")
-        form.addRow("Y Spacing:", self.y_spacing_spin)
+        form.addRow(tr("Y Spacing:"), self.y_spacing_spin)
 
         self.height_spin = QDoubleSpinBox(self)
         self.height_spin.setRange(0.0, 100.0)
         self.height_spin.setValue(3.5)
         self.height_spin.setSuffix(" m")
-        form.addRow("Storey Height:", self.height_spin)
+        form.addRow(tr("Storey Height:"), self.height_spin)
 
         layout.addWidget(group)
 

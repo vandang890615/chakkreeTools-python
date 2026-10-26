@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
 )
 
 from chakkree_tools.rc.column import Column
+from chakkree_tools.i18n import tr
 
 
 class ColumnDialog(QDialog):
@@ -27,7 +28,7 @@ class ColumnDialog(QDialog):
 
     def __init__(self, parent: Optional[Any] = None) -> None:
         super().__init__(parent)
-        self.setWindowTitle("Parametric RC Column")
+        self.setWindowTitle(tr("Parametric RC Column"))
         self.setMinimumWidth(380)
 
         self._setup_ui()
@@ -37,19 +38,19 @@ class ColumnDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.setSizeConstraint(QLayout.SetMinimumSize)
 
-        group_box = QGroupBox("Column Parameters", self)
+        group_box = QGroupBox(tr("Column Parameters"), self)
         form_layout = QFormLayout(group_box)
 
         # Column ID
         self.id_input = QLineEdit("C1", self)
-        form_layout.addRow("Column ID:", self.id_input)
+        form_layout.addRow(tr("Column ID:"), self.id_input)
 
         # Profile
         self.profile_combo = QComboBox(self)
-        self.profile_combo.addItem("Rectangular", "RECTANGULAR")
-        self.profile_combo.addItem("Circular", "CIRCULAR")
+        self.profile_combo.addItem(tr("Rectangular"), "RECTANGULAR")
+        self.profile_combo.addItem(tr("Circular"), "CIRCULAR")
         self.profile_combo.currentIndexChanged.connect(self._update_live_calc)
-        form_layout.addRow("Profile:", self.profile_combo)
+        form_layout.addRow(tr("Profile:"), self.profile_combo)
 
         # Width (b)
         self.width_spin = QDoubleSpinBox(self)
@@ -58,7 +59,7 @@ class ColumnDialog(QDialog):
         self.width_spin.setValue(0.30)
         self.width_spin.setSuffix(" m")
         self.width_spin.valueChanged.connect(self._update_live_calc)
-        form_layout.addRow("Width (b):", self.width_spin)
+        form_layout.addRow(tr("Width (b):"), self.width_spin)
 
         # Depth / Diameter (h)
         self.depth_spin = QDoubleSpinBox(self)
@@ -67,7 +68,7 @@ class ColumnDialog(QDialog):
         self.depth_spin.setValue(0.30)
         self.depth_spin.setSuffix(" m")
         self.depth_spin.valueChanged.connect(self._update_live_calc)
-        form_layout.addRow("Depth (t):", self.depth_spin)
+        form_layout.addRow(tr("Depth (t):"), self.depth_spin)
 
         # Height (H)
         self.height_spin = QDoubleSpinBox(self)
@@ -76,15 +77,15 @@ class ColumnDialog(QDialog):
         self.height_spin.setValue(3.50)
         self.height_spin.setSuffix(" m")
         self.height_spin.valueChanged.connect(self._update_live_calc)
-        form_layout.addRow("Height (H):", self.height_spin)
+        form_layout.addRow(tr("Height (H):"), self.height_spin)
 
         # Longitudinal Bar Count (4 to 16 bars)
         self.main_bar_count_combo = QComboBox(self)
         for count in [4, 6, 8, 10, 12, 14, 16]:
-            self.main_bar_count_combo.addItem(f"{count} Bars", count)
+            self.main_bar_count_combo.addItem(tr(f"{count} Bars"), count)
         self.main_bar_count_combo.setCurrentIndex(2)  # Default 8 Bars
         self.main_bar_count_combo.currentIndexChanged.connect(self._update_live_calc)
-        form_layout.addRow("Main Bars:", self.main_bar_count_combo)
+        form_layout.addRow(tr("Main Bars:"), self.main_bar_count_combo)
 
         # Main Bar Diameter
         self.main_bar_dia_combo = QComboBox(self)
@@ -99,7 +100,7 @@ class ColumnDialog(QDialog):
         for label, val in main_dias:
             self.main_bar_dia_combo.addItem(label, val)
         self.main_bar_dia_combo.setCurrentIndex(1)  # Default DB16
-        form_layout.addRow("Main Bar Dia:", self.main_bar_dia_combo)
+        form_layout.addRow(tr("Main Bar Dia:"), self.main_bar_dia_combo)
 
         # Stirrup Diameter
         self.stirrup_dia_combo = QComboBox(self)
@@ -111,7 +112,7 @@ class ColumnDialog(QDialog):
         for label, val in stirrup_dias:
             self.stirrup_dia_combo.addItem(label, val)
         self.stirrup_dia_combo.setCurrentIndex(1)  # Default RB9
-        form_layout.addRow("Stirrup Dia:", self.stirrup_dia_combo)
+        form_layout.addRow(tr("Stirrup Dia:"), self.stirrup_dia_combo)
 
         # Stirrup Spacing (m)
         self.stirrup_spacing_spin = QDoubleSpinBox(self)
@@ -121,7 +122,7 @@ class ColumnDialog(QDialog):
         self.stirrup_spacing_spin.setValue(0.150)
         self.stirrup_spacing_spin.setSuffix(" m")
         self.stirrup_spacing_spin.valueChanged.connect(self._update_live_calc)
-        form_layout.addRow("Stirrup Spacing:", self.stirrup_spacing_spin)
+        form_layout.addRow(tr("Stirrup Spacing:"), self.stirrup_spacing_spin)
 
         # Covering (m)
         self.covering_spin = QDoubleSpinBox(self)
@@ -131,12 +132,12 @@ class ColumnDialog(QDialog):
         self.covering_spin.setValue(0.030)
         self.covering_spin.setSuffix(" m")
         self.covering_spin.valueChanged.connect(self._update_live_calc)
-        form_layout.addRow("Covering:", self.covering_spin)
+        form_layout.addRow(tr("Covering:"), self.covering_spin)
 
         layout.addWidget(group_box)
 
         # Live Calculation Summary Group
-        calc_box = QGroupBox("Live Calculation Summary", self)
+        calc_box = QGroupBox(tr("Live Calculation Summary"), self)
         calc_layout = QVBoxLayout(calc_box)
         self.calc_info_label = QLabel(self)
         self.calc_info_label.setWordWrap(True)
@@ -156,12 +157,18 @@ class ColumnDialog(QDialog):
         try:
             col = self.get_column()
             stirrup_count = int(col.height / col.stirrup_spacing) + 1 if col.stirrup_spacing > 0 else 0
+            sec_lbl = tr("Section:")
+            h_lbl = tr("Height:")
+            conc_lbl = tr("Concrete:")
+            form_lbl = tr("Formwork:")
+            stir_lbl = tr("Stirrups:")
+            profile_name = tr("Circular") if col.profile == "CIRCULAR" else tr("Rectangular")
             self.calc_info_label.setText(
-                f"Section: {col.profile.capitalize()} {col.width:.2f} m × {col.depth:.2f} m | Height: {col.height:.2f} m\n"
-                f"Concrete: {col.concrete_volume:.3f} m³ | Formwork: {col.formwork_area:.2f} m² | Stirrups: ~{stirrup_count} pcs"
+                f"{sec_lbl} {profile_name} {col.width:.2f} m × {col.depth:.2f} m | {h_lbl} {col.height:.2f} m\n"
+                f"{conc_lbl} {col.concrete_volume:.3f} m³ | {form_lbl} {col.formwork_area:.2f} m² | {stir_lbl} ~{stirrup_count} pcs"
             )
         except ValueError as exc:
-            self.calc_info_label.setText(f"Invalid input: {exc}")
+            self.calc_info_label.setText(tr("Invalid input: {exc}", exc=exc))
 
     def get_column(self) -> Column:
         """
@@ -179,13 +186,13 @@ class ColumnDialog(QDialog):
         covering = self.covering_spin.value()
 
         if width <= 0 or depth <= 0:
-            raise ValueError("Column width and depth must be greater than zero.")
+            raise ValueError(tr("Column width and depth must be greater than zero."))
         if height <= 0:
-            raise ValueError("Column height must be greater than zero.")
+            raise ValueError(tr("Column height must be greater than zero."))
         if stirrup_spacing <= 0:
-            raise ValueError("Stirrup spacing must be greater than zero.")
+            raise ValueError(tr("Stirrup spacing must be greater than zero."))
         if covering <= 0:
-            raise ValueError("Covering must be greater than zero.")
+            raise ValueError(tr("Covering must be greater than zero."))
 
         return Column(
             id=col_id,
